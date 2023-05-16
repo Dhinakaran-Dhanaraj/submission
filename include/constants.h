@@ -1,0 +1,4 @@
+
+#define SHA_KEY_SZ 32
+#define SHA_BLOCK_SZ 16
+#define SHA_256_BUFFER_LEN 64

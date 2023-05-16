@@ -1,6 +1,6 @@
-# Technical Assessment Systems Level Developer Response
+# Technical Assessment Systems Level Developer Submission
 
-The following is response created for spider oak by Dhinakaran Dhanaraj for their technical Assement.
+Submission of a technical assessment for by Dhinakaran.
 
 ## Setup
 
@@ -18,6 +18,11 @@ compiler: clang
 
 ## Stories and Weights.
 
-- Figure out Cmake
-- Make shared library for encrypting and decrpyting message using SHA-256.
-- create console based executables
+- Figure out Cmake : High
+- Make shared library for encrypting and decrypting message using SHA-256.
+    - encrypt : high
+    - decrypt : low
+- Make encrypt executable. low
+- Make code to write out files to disk. Low
+- Make decrypt executable.
+- add in command line handling. Low
