@@ -36,10 +36,14 @@ std::unique_ptr<EVP_CIPHER_CTX, void (*)(EVP_CIPHER_CTX *)> make_safe_cipher_ctx
 
 std::vector<uint8_t> encrypt_message(const std::string &key, const std::string &message)
 {
-    auto ctx = make_safe_cipher_ctx();
     std::vector<uint8_t> output;
     output.reserve(0);
 
+    if ( !message.size() ) {
+        return output;
+    }
+
+    auto ctx = make_safe_cipher_ctx();
     int error = 0;
 
     error = EVP_CIPHER_CTX_init(ctx.get());
@@ -89,6 +93,10 @@ std::vector<uint8_t> encrypt_message(const std::string &key, const std::string &
 
 std::string decrypt_message(const std::string &key, const std::vector<uint8_t> &encrypted)
 {
+    if ( !encrypted.size() ) {
+        return "";
+    }
+
     auto ctx = make_safe_cipher_ctx();
     int error = 0;
 
