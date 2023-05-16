@@ -6,30 +6,54 @@
 #include "constants.h"
 #include "error.h"
 
+void print_help()
+{
+	std::cerr << "input must include -k <key> -m <message>" << std::endl;
+	exit(1);
+}
 
-int main(int argc, char** argv){
-	
+int main(int argc, char **argv)
+{
+
+	if (argc != 5)
+	{
+		std::cerr << argc << std::endl;
+		print_help();
+	}
+
 	// process command line inputs
-    std::string key { 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37,
-                           0x38, 0x39, 0x30, 0x31, 0x32, 0x33, 0x34, 0x35,
-                           0x36, 0x37, 0x38, 0x39, 0x30, 0x31, 0x32, 0x33,
-                           0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x30, 0x31
-                         };
-	std::string message =  "";
+	std::string key{};
+	std::string message{};
 
-	if ( key.size() != SHA_KEY_SZ ) {
+	for (int i = 1; i < argc; i += 2)
+	{
+		auto val = argv[i];
+		switch (val[1])
+		{
+		case 'k':
+			key = std::string(argv[i + 1]);
+			break;
+		case 'm':
+			message = std::string(argv[i + 1]);
+			break;
+		default:
+			print_help();
+			break;
+		}
+	}
+
+	if (key.size() != SHA_KEY_SZ)
+	{
 		print_key_error(key);
-		exit(1);
 	}
 
 	bool err = false;
 
 	auto hmac = get_hmac(key, message);
-	auto encrypted = encrypt_message(key, message) ;
+	auto encrypted = encrypt_message(key, message);
 
 	err = write_to_file(MESSAGE_ENCRYPTED_LOC, encrypted);
 
 	auto hmac_as_vec = string_to_vector(hmac);
 	err = write_to_file(HMAC_FILE_LOC, hmac_as_vec);
-
 }
