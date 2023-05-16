@@ -3,7 +3,8 @@
 #include "crypto.h"
 #include "hmac.h"
 #include "file_handling.h"
-
+#include "constants.h"
+#include "error.h"
 
 
 int main(int argc, char** argv){
@@ -15,6 +16,12 @@ int main(int argc, char** argv){
                            0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x30, 0x31
                          };
 	std::string message =  "";
+
+	if ( key.size() != SHA_KEY_SZ ) {
+		print_key_error(key);
+		exit(1);
+	}
+
 	bool err = false;
 
 	auto hmac = get_hmac(key, message);
